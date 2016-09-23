@@ -18,6 +18,7 @@ void GroupInst::EnterNotify() {
     context()->SchedBuild(this, s_proto);  //builds on next timestep
     BuildNotify(this);
   }
+  std::cout << "GROUP DEPLOY!!!! at " << context()->time() << std::endl;
 }
 
 
