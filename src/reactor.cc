@@ -88,9 +88,9 @@ void Reactor::EnterNotify() {
     ss << "prototype '" << prototype() << "' has " << pref_change_values.size()
        << " pref_change_values vals, expected " << n << "\n";
   }
-  
+
   n_cycles = 0;
-  
+
   if (ss.str().size() > 0) {
     throw cyclus::ValueError(ss.str());
   }
