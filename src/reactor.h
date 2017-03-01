@@ -220,11 +220,11 @@ class Reactor : public cyclus::Facility,
   ///////////// recipe changes ///////////
   #pragma cyclus var { \
     "default": [], \
-    "uilabel": "Time to Change Fresh/Spent Fuel Recipe", \
-    "doc": "A time step on which to change the input-output recipe pair for " \
+    "uilabel": "Cycle to Change Fresh/Spent Fuel Recipe", \
+    "doc": "A cycle number on which to change the input-output recipe pair for " \
            "a requested fresh fuel.", \
   }
-  std::vector<int> recipe_change_times;
+  std::vector<int> recipe_change_cycles;
   #pragma cyclus var { \
     "default": [], \
     "uilabel": "Commodity for Changed Fresh/Spent Fuel Recipe", \
@@ -348,11 +348,11 @@ class Reactor : public cyclus::Facility,
   /////////// preference changes ///////////
   #pragma cyclus var { \
     "default": [], \
-    "uilabel": "Time to Change Fresh Fuel Preference", \
-    "doc": "A time step on which to change the request preference for a " \
+    "uilabel": "Cycle to Change Fresh Fuel Preference", \
+    "doc": "A cycle number on which to change the request preference for a " \
            "particular fresh fuel type.", \
   }
-  std::vector<int> pref_change_times;
+  std::vector<int> pref_change_cycles;
   #pragma cyclus var { \
     "default": [], \
     "doc": "The input commodity for a particular fuel preference change.  " \
@@ -397,6 +397,8 @@ class Reactor : public cyclus::Facility,
 
   // populated lazily and no need to persist.
   std::set<std::string> uniq_outcommods_;
+
+  int n_cycles;
 };
 
 } // namespace cycamore

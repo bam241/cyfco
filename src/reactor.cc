@@ -63,7 +63,7 @@ void Reactor::EnterNotify() {
   }
 
   // input consistency checking:
-  int n = recipe_change_times.size();
+  int n = recipe_change_cycles.size();
   std::stringstream ss;
   if (recipe_change_commods.size() != n) {
     ss << "prototype '" << prototype() << "' has "
@@ -79,7 +79,7 @@ void Reactor::EnterNotify() {
        << " recipe_change_out vals, expected " << n << "\n";
   }
 
-  n = pref_change_times.size();
+  n = pref_change_cycles.size();
   if (pref_change_commods.size() != n) {
     ss << "prototype '" << prototype() << "' has " << pref_change_commods.size()
        << " pref_change_commods vals, expected " << n << "\n";
@@ -88,7 +88,9 @@ void Reactor::EnterNotify() {
     ss << "prototype '" << prototype() << "' has " << pref_change_values.size()
        << " pref_change_values vals, expected " << n << "\n";
   }
-
+  
+  n_cycles = 0;
+  
   if (ss.str().size() > 0) {
     throw cyclus::ValueError(ss.str());
   }
@@ -147,14 +149,15 @@ void Reactor::Tick() {
   }
   if (cycle_step >= cycle_time) {
     Load();
+    n_cycles++;
   }
 
-  int t = context()->time();
+// int t = context()->time();
 
   // update preferences
-  for (int i = 0; i < pref_change_times.size(); i++) {
-    int change_t = pref_change_times[i];
-    if (t != change_t) {
+  for (int i = 0; i < pref_change_cycles.size(); i++) {
+    int change_cycle = pref_change_cycles[i];
+    if (n_cycles != change_cycle) {
       continue;
     }
 
@@ -168,9 +171,9 @@ void Reactor::Tick() {
   }
 
   // update recipes
-  for (int i = 0; i < recipe_change_times.size(); i++) {
-    int change_t = recipe_change_times[i];
-    if (t != change_t) {
+  for (int i = 0; i < recipe_change_cycles.size(); i++) {
+    int change_cycle = recipe_change_cycles[i];
+    if (n_cycles != change_cycle) {
       continue;
     }
 
