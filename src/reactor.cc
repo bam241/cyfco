@@ -150,14 +150,9 @@ void Reactor::Tick() {
   }
   if (cycle_step >= cycle_time) {
     Load();
-    n_cycles++;
   }
-
-<<<<<<< HEAD
-=======
 // int t = context()->time();
 
->>>>>>>  should be working, with number of cycle
   // update preferences
   for (int i = 0; i < pref_change_cycles.size(); i++) {
     int change_cycle = pref_change_cycles[i];
