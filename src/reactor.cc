@@ -142,6 +142,7 @@ void Reactor::Tick() {
   if (cycle_step == cycle_time) {
     Transmute();
     Record("CYCLE_END", "");
+    n_cycles++;
   }
 
   if (cycle_step >= cycle_time && !discharged) {
@@ -149,10 +150,7 @@ void Reactor::Tick() {
   }
   if (cycle_step >= cycle_time) {
     Load();
-    n_cycles++;
   }
-
-// int t = context()->time();
 
   // update preferences
   for (int i = 0; i < pref_change_cycles.size(); i++) {
