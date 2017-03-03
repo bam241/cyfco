@@ -110,8 +110,7 @@ class Mixer : public cyclus::Facility {
                       " material in the first buffer to fill the throughput then try to"\
                       " fill the other one...",\
                       "uilabel":"Batch Handling"}
-  bool constrain_request;                    
-
+  bool constrain_request;
 
   bool  request_other_buffer;
   // intra-time-step state - no need to be a state var
