@@ -84,12 +84,23 @@ void Mixer::EnterNotify() {
         mixing_ratios[i] = 1.0 / (mixing_ratios.size());
       }
     }
+    request_other_buffer = false;
   }
 
   sell_policy.Init(this, &output, "output").Set(out_commod).Start();
 }
 
 void Mixer::Tick() {
+
+  if(constrain_request){
+    tgt_qty = streambufs["in_stream_0"].quantity() / mixing_ratios[i]);
+    if( tgt_qty >= throughput){
+      request_other_buffer = true
+    }
+  }
+}
+
+void Mixer::Tock() {
   if (output.quantity() < output.capacity()) {
     double tgt_qty = output.space();
 
@@ -117,6 +128,10 @@ void Mixer::Tick() {
       output.Push(m);
     }
   }
+
+  if(constrain_request && request_other_buffer){
+      request_other_buffer = false
+  }
 }
 
 std::set<cyclus::RequestPortfolio<cyclus::Material>::Ptr>
@@ -124,10 +139,10 @@ Mixer::GetMatlRequests() {
   using cyclus::RequestPortfolio;
 
   std::set<RequestPortfolio<cyclus::Material>::Ptr> ports;
-  
+
   for (int i = 0; i < in_commods.size(); i++) {
     std::string name = "in_stream_" + std::to_string(i);
-    
+
     if (streambufs[name].space() > cyclus::eps_rsrc()) {
       RequestPortfolio<cyclus::Material>::Ptr port(
           new RequestPortfolio<cyclus::Material>());
@@ -136,7 +151,7 @@ Mixer::GetMatlRequests() {
       m = cyclus::NewBlankMaterial(streambufs[name].space());
 
       std::vector<cyclus::Request<cyclus::Material>*> reqs;
-      
+
       std::map<std::string, double>::iterator it;
       for (it = in_commods[i].begin() ; it != in_commods[i].end(); it++) {
         std::string commod = it->first;
@@ -144,7 +159,7 @@ Mixer::GetMatlRequests() {
         reqs.push_back(port->AddRequest(m, this, commod , pref, false));
         req_inventories_[reqs.back()] = name;
       }
-      port->AddMutualReqs(reqs);  
+      port->AddMutualReqs(reqs);
       ports.insert(port);
     }
   }
