@@ -103,14 +103,15 @@ class Mixer : public cyclus::Facility {
   }
   double throughput;
 
-  #pragma cyclus var {"default": 0,\
+  #pragma cyclus var {"default": False,\
                       "tooltip":"If true try to feed buffer > 1 only if buffer 0 is full", \
                       "doc":" Request commods for the buffer other than the first one," \
                       " depending of the status of the first buffer: if there is enough"\
                       " material in the first buffer to fill the throughput then try to"\
                       " fill the other one...",\
                       "uilabel":"Batch Handling"}
-  int constrain_request;
+  bool constrain_request;                    
+
 
   bool  request_other_buffer;
   // intra-time-step state - no need to be a state var
