@@ -93,9 +93,9 @@ void Mixer::EnterNotify() {
 void Mixer::Tick() {
 
   if(constrain_request){
-    tgt_qty = streambufs["in_stream_0"].quantity() / mixing_ratios[i]);
+    double tgt_qty = streambufs["in_stream_0"].quantity() / mixing_ratios[0];
     if( tgt_qty >= throughput){
-      request_other_buffer = true
+      request_other_buffer = true;
     }
   }
 }
@@ -130,7 +130,7 @@ void Mixer::Tock() {
   }
 
   if(constrain_request && request_other_buffer){
-      request_other_buffer = false
+      request_other_buffer = false;
   }
 }
 
@@ -141,26 +141,28 @@ Mixer::GetMatlRequests() {
   std::set<RequestPortfolio<cyclus::Material>::Ptr> ports;
 
   for (int i = 0; i < in_commods.size(); i++) {
-    std::string name = "in_stream_" + std::to_string(i);
+    if (request_other_buffer || i == 0) {
+      std::string name = "in_stream_" + std::to_string(i);
 
-    if (streambufs[name].space() > cyclus::eps_rsrc()) {
-      RequestPortfolio<cyclus::Material>::Ptr port(
-          new RequestPortfolio<cyclus::Material>());
+      if (streambufs[name].space() > cyclus::eps_rsrc()) {
+        RequestPortfolio<cyclus::Material>::Ptr port(
+            new RequestPortfolio<cyclus::Material>());
 
-      cyclus::Material::Ptr m;
-      m = cyclus::NewBlankMaterial(streambufs[name].space());
+        cyclus::Material::Ptr m;
+        m = cyclus::NewBlankMaterial(streambufs[name].space());
 
-      std::vector<cyclus::Request<cyclus::Material>*> reqs;
+        std::vector<cyclus::Request<cyclus::Material>*> reqs;
 
-      std::map<std::string, double>::iterator it;
-      for (it = in_commods[i].begin() ; it != in_commods[i].end(); it++) {
-        std::string commod = it->first;
-        double pref = it->second;
-        reqs.push_back(port->AddRequest(m, this, commod , pref, false));
-        req_inventories_[reqs.back()] = name;
+        std::map<std::string, double>::iterator it;
+        for (it = in_commods[i].begin(); it != in_commods[i].end(); it++) {
+          std::string commod = it->first;
+          double pref = it->second;
+          reqs.push_back(port->AddRequest(m, this, commod, pref, false));
+          req_inventories_[reqs.back()] = name;
+        }
+        port->AddMutualReqs(reqs);
+        ports.insert(port);
       }
-      port->AddMutualReqs(reqs);
-      ports.insert(port);
     }
   }
   return ports;

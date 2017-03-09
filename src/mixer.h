@@ -29,7 +29,7 @@ class Mixer : public cyclus::Facility {
   virtual ~Mixer(){};
 
   virtual void Tick();
-  virtual void Tock(){};
+  virtual void Tock();
   virtual void EnterNotify();
 
   virtual void AcceptMatlTrades(
