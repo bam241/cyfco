@@ -45,6 +45,12 @@ void Mixer::EnterNotify() {
   in_commods.clear();
 
   // initialisation internal variable
+  if (constrain_request == 0){
+    request_other_buffer = true;
+  }
+  else
+    request_other_buffer = false;
+
   for (int i = 0; i < streams_.size(); i++) {
     mixing_ratios.push_back(streams_[i].first.first);
     in_buf_sizes.push_back(streams_[i].first.second);
@@ -84,17 +90,15 @@ void Mixer::EnterNotify() {
         mixing_ratios[i] = 1.0 / (mixing_ratios.size());
       }
     }
-    request_other_buffer = false;
   }
 
   sell_policy.Init(this, &output, "output").Set(out_commod).Start();
 }
 
 void Mixer::Tick() {
-
-  if(constrain_request){
-    double tgt_qty = streambufs["in_stream_0"].quantity() / mixing_ratios[0];
-    if( tgt_qty >= throughput){
+  if (constrain_request == 1 ) {
+    double tgt_qty = streambufs["in_stream_0"].quantity() /  mixing_ratios[0];
+    if (tgt_qty >= throughput) {
       request_other_buffer = true;
     }
   }
@@ -129,8 +133,8 @@ void Mixer::Tock() {
     }
   }
 
-  if(constrain_request && request_other_buffer){
-      request_other_buffer = false;
+  if (constrain_request == 1 && request_other_buffer) {
+    request_other_buffer = false;
   }
 }
 
@@ -143,6 +147,7 @@ Mixer::GetMatlRequests() {
   for (int i = 0; i < in_commods.size(); i++) {
     if (request_other_buffer || i == 0) {
       std::string name = "in_stream_" + std::to_string(i);
+        
 
       if (streambufs[name].space() > cyclus::eps_rsrc()) {
         RequestPortfolio<cyclus::Material>::Ptr port(

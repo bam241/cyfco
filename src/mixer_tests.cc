@@ -243,7 +243,7 @@ TEST_F(MixerTest, MixingComposition) {
   mat.push_back(Material::CreateUntracked(in_cap[2], c_uox()));
 
   SetInputInv(mat);
-  mf_facility_->Tick();
+  mf_facility_->Tock();
 
   cyclus::CompMap v_0 = c_natu()->mass();
   cyclus::compmath::Normalize(&v_0, in_frac_[0]);
@@ -290,7 +290,7 @@ TEST_F(MixerTest, Throughput) {
   mat.push_back(Material::CreateUntracked(in_cap[2], c_uox()));
   SetInputInv(mat);
 
-  mf_facility_->Tick();
+  mf_facility_->Tock();
 
   std::vector<double> cap;
   for (int i = 0; i < in_coms.size(); i++) {
