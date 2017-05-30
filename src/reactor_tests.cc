@@ -374,9 +374,9 @@ TEST(ReactorTests, PrefChange) {
      "  <n_assem_core>1</n_assem_core>  "
      "  <n_assem_batch>1</n_assem_batch>  "
      ""
-     "  <pref_change_times>   <val>25</val>         </pref_change_times>"
-     "  <pref_change_commods> <val>enriched_u</val> </pref_change_commods>"
-     "  <pref_change_values>  <val>-1</val>         </pref_change_values>";
+     "  <pref_change_ti_times>   <val>25</val>         </pref_change_ti_times>"
+     "  <pref_change_ti_commods> <val>enriched_u</val> </pref_change_ti_commods>"
+     "  <pref_change_ti_values>  <val>-1</val>         </pref_change_ti_values>";
 
   int simdur = 50;
   cyclus::MockSim sim(cyclus::AgentSpec(":cycamore:Reactor"), config, simdur);
@@ -403,10 +403,10 @@ TEST(ReactorTests, RecipeChange) {
      "  <n_assem_core>1</n_assem_core>  "
      "  <n_assem_batch>1</n_assem_batch>  "
      ""
-     "  <recipe_change_times>   <val>25</val>         <val>35</val>         </recipe_change_times>"
-     "  <recipe_change_commods> <val>enriched_u</val> <val>enriched_u</val> </recipe_change_commods>"
-     "  <recipe_change_in>      <val>water</val>      <val>water</val>      </recipe_change_in>"
-     "  <recipe_change_out>     <val>lwr_spent</val>  <val>water</val>      </recipe_change_out>";
+     "  <recipe_change_ti_times>   <val>25</val>         <val>35</val>         </recipe_change_ti_times>"
+     "  <recipe_change_ti_commods> <val>enriched_u</val> <val>enriched_u</val> </recipe_change_ti_commods>"
+     "  <recipe_change_ti_in>      <val>water</val>      <val>water</val>      </recipe_change_ti_in>"
+     "  <recipe_change_ti_out>     <val>lwr_spent</val>  <val>water</val>      </recipe_change_ti_out>";
 
   int simdur = 50;
   cyclus::MockSim sim(cyclus::AgentSpec(":cycamore:Reactor"), config, simdur);
