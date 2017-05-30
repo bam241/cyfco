@@ -63,30 +63,30 @@ void Reactor::EnterNotify() {
   }
 
   // input consistency checking:
-  int n = recipe_change_cycles.size();
+  int n = recipe_change_cy_cycles.size();
   std::stringstream ss;
-  if (recipe_change_commods.size() != n) {
+  if (recipe_change_cy_commods.size() != n) {
     ss << "prototype '" << prototype() << "' has "
-       << recipe_change_commods.size()
-       << " recipe_change_commods vals, expected " << n << "\n";
+       << recipe_change_cy_commods.size()
+       << " recipe_change_cy_commods vals, expected " << n << "\n";
   }
-  if (recipe_change_in.size() != n) {
-    ss << "prototype '" << prototype() << "' has " << recipe_change_in.size()
-       << " recipe_change_in vals, expected " << n << "\n";
+  if (recipe_change_cy_in.size() != n) {
+    ss << "prototype '" << prototype() << "' has " << recipe_change_cy_in.size()
+       << " recipe_change_cy_in vals, expected " << n << "\n";
   }
-  if (recipe_change_out.size() != n) {
-    ss << "prototype '" << prototype() << "' has " << recipe_change_out.size()
-       << " recipe_change_out vals, expected " << n << "\n";
+  if (recipe_change_cy_out.size() != n) {
+    ss << "prototype '" << prototype() << "' has " << recipe_change_cy_out.size()
+       << " recipe_change_cy_out vals, expected " << n << "\n";
   }
 
-  n = pref_change_cycles.size();
-  if (pref_change_commods.size() != n) {
-    ss << "prototype '" << prototype() << "' has " << pref_change_commods.size()
-       << " pref_change_commods vals, expected " << n << "\n";
+  n = pref_change_cy_cycles.size();
+  if (pref_change_cy_commods.size() != n) {
+    ss << "prototype '" << prototype() << "' has " << pref_change_cy_commods.size()
+       << " pref_change_cy_commods vals, expected " << n << "\n";
   }
-  if (pref_change_values.size() != n) {
-    ss << "prototype '" << prototype() << "' has " << pref_change_values.size()
-       << " pref_change_values vals, expected " << n << "\n";
+  if (pref_change_cy_values.size() != n) {
+    ss << "prototype '" << prototype() << "' has " << pref_change_cy_values.size()
+       << " pref_change_cy_values vals, expected " << n << "\n";
   }
 
   n_cycles = 0;
@@ -154,33 +154,33 @@ void Reactor::Tick() {
 // int t = context()->time();
 
   // update preferences
-  for (int i = 0; i < pref_change_cycles.size(); i++) {
-    int change_cycle = pref_change_cycles[i];
-    if (n_cycles != change_cycle) {
+  for (int i = 0; i < pref_change_cy_cycles.size(); i++) {
+    int change_cy_cycle = pref_change_cy_cycles[i];
+    if (n_cycles != change_cy_cycle) {
       continue;
     }
 
-    std::string incommod = pref_change_commods[i];
+    std::string incommod = pref_change_cy_commods[i];
     for (int j = 0; j < fuel_incommods.size(); j++) {
       if (fuel_incommods[j] == incommod) {
-        fuel_prefs[j] = pref_change_values[i];
+        fuel_prefs[j] = pref_change_cy_values[i];
         break;
       }
     }
   }
 
   // update recipes
-  for (int i = 0; i < recipe_change_cycles.size(); i++) {
-    int change_cycle = recipe_change_cycles[i];
-    if (n_cycles != change_cycle) {
+  for (int i = 0; i < recipe_change_cy_cycles.size(); i++) {
+    int change_cy_cycle = recipe_change_cy_cycles[i];
+    if (n_cycles != change_cy_cycle) {
       continue;
     }
 
-    std::string incommod = recipe_change_commods[i];
+    std::string incommod = recipe_change_cy_commods[i];
     for (int j = 0; j < fuel_incommods.size(); j++) {
       if (fuel_incommods[j] == incommod) {
-        fuel_inrecipes[j] = recipe_change_in[i];
-        fuel_outrecipes[j] = recipe_change_out[i];
+        fuel_inrecipes[j] = recipe_change_cy_in[i];
+        fuel_outrecipes[j] = recipe_change_cy_out[i];
         break;
       }
     }

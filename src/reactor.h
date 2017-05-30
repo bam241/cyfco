@@ -224,7 +224,7 @@ class Reactor : public cyclus::Facility,
     "doc": "A cycle number on which to change the input-output recipe pair for " \
            "a requested fresh fuel.", \
   }
-  std::vector<int> recipe_change_cycles;
+  std::vector<int> recipe_change_cy_cycles;
   #pragma cyclus var { \
     "default": [], \
     "uilabel": "Commodity for Changed Fresh/Spent Fuel Recipe", \
@@ -233,7 +233,7 @@ class Reactor : public cyclus::Facility,
            "specified recipe change times.", \
     "uitype": ["oneormore", "incommodity"], \
   }
-  std::vector<std::string> recipe_change_commods;
+  std::vector<std::string> recipe_change_cy_commods;
   #pragma cyclus var { \
     "default": [], \
     "uilabel": "New Recipe for Fresh Fuel", \
@@ -242,7 +242,7 @@ class Reactor : public cyclus::Facility,
            "change times.", \
     "uitype": ["oneormore", "inrecipe"], \
   }
-  std::vector<std::string> recipe_change_in;
+  std::vector<std::string> recipe_change_cy_in;
   #pragma cyclus var { \
     "default": [], \
     "uilabel": "New Recipe for Spent Fuel", \
@@ -251,7 +251,7 @@ class Reactor : public cyclus::Facility,
            "change times.", \
     "uitype": ["oneormore", "outrecipe"], \
   }
-  std::vector<std::string> recipe_change_out;
+  std::vector<std::string> recipe_change_cy_out;
 
  //////////// inventory and core params ////////////
   #pragma cyclus var { \
@@ -352,7 +352,7 @@ class Reactor : public cyclus::Facility,
     "doc": "A cycle number on which to change the request preference for a " \
            "particular fresh fuel type.", \
   }
-  std::vector<int> pref_change_cycles;
+  std::vector<int> pref_change_cy_cycles;
   #pragma cyclus var { \
     "default": [], \
     "doc": "The input commodity for a particular fuel preference change.  " \
@@ -361,7 +361,7 @@ class Reactor : public cyclus::Facility,
     "uilabel": "Commodity for Changed Fresh Fuel Preference", \
     "uitype": ["oneormore", "incommodity"], \
   }
-  std::vector<std::string> pref_change_commods;
+  std::vector<std::string> pref_change_cy_commods;
   #pragma cyclus var { \
     "default": [], \
     "uilabel": "Changed Fresh Fuel Preference",                        \
@@ -369,7 +369,7 @@ class Reactor : public cyclus::Facility,
            " Same order as and direct correspondence to the specified " \
            "preference change times.", \
   }
-  std::vector<double> pref_change_values;
+  std::vector<double> pref_change_cy_values;
 
   // Resource inventories - these must be defined AFTER/BELOW the member vars
   // referenced (e.g. n_batch_fresh, assem_size, etc.).
