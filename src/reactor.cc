@@ -63,32 +63,64 @@ void Reactor::EnterNotify() {
   }
 
   // input consistency checking:
-  int n = recipe_change_cy_cycles.size();
   std::stringstream ss;
-  if (recipe_change_cy_commods.size() != n) {
-    ss << "prototype '" << prototype() << "' has "
-       << recipe_change_cy_commods.size()
-       << " recipe_change_cy_commods vals, expected " << n << "\n";
+  if ( recipe_change_cy_cycles.size() != 0 && recipe_change_cy_cycles.size()){
+    ss << "Can't use recipe change by time and cycle simultaneously" << "\n";
   }
-  if (recipe_change_cy_in.size() != n) {
-    ss << "prototype '" << prototype() << "' has " << recipe_change_cy_in.size()
-       << " recipe_change_cy_in vals, expected " << n << "\n";
+  else{
+    int n = recipe_change_cy_cycles.size();
+    if (recipe_change_cy_commods.size() != n) {
+      ss << "prototype '" << prototype() << "' has "
+         << recipe_change_cy_commods.size()
+         << " recipe_change_cy_commods vals, expected " << n << "\n";
+    }
+    if (recipe_change_cy_in.size() != n) {
+      ss << "prototype '" << prototype() << "' has " << recipe_change_cy_in.size()
+         << " recipe_change_cy_in vals, expected " << n << "\n";
+    }
+    if (recipe_change_cy_out.size() != n) {
+      ss << "prototype '" << prototype() << "' has " << recipe_change_cy_out.size()
+         << " recipe_change_cy_out vals, expected " << n << "\n";
+    }
+    n = recipe_change_ti_times.size();
+    if (recipe_change_ti_commods.size() != n) {
+      ss << "prototype '" << prototype() << "' has "
+         << recipe_change_ti_commods.size()
+         << " recipe_change_ti_commods vals, expected " << n << "\n";
+    }
+    if (recipe_change_ti_in.size() != n) {
+      ss << "prototype '" << prototype() << "' has " << recipe_change_ti_in.size()
+         << " recipe_change_ti_in vals, expected " << n << "\n";
+    }
+    if (recipe_change_ti_out.size() != n) {
+      ss << "prototype '" << prototype() << "' has " << recipe_change_ti_out.size()
+         << " recipe_change_ti_out vals, expected " << n << "\n";
+    }
   }
-  if (recipe_change_cy_out.size() != n) {
-    ss << "prototype '" << prototype() << "' has " << recipe_change_cy_out.size()
-       << " recipe_change_cy_out vals, expected " << n << "\n";
+  
+  if ( pref_change_cy_cycles.size() != 0 && recipe_change_cy_cycles.size()){
+    ss << "Can't use preference change by time and cycle simultaneously" << "\n";
   }
-
-  n = pref_change_cy_cycles.size();
-  if (pref_change_cy_commods.size() != n) {
-    ss << "prototype '" << prototype() << "' has " << pref_change_cy_commods.size()
-       << " pref_change_cy_commods vals, expected " << n << "\n";
+    else{
+    int n = pref_change_cy_cycles.size();
+    if (pref_change_cy_commods.size() != n) {
+      ss << "prototype '" << prototype() << "' has " << pref_change_cy_commods.size()
+         << " pref_change_cy_commods vals, expected " << n << "\n";
+    }
+    if (pref_change_cy_values.size() != n) {
+      ss << "prototype '" << prototype() << "' has " << pref_change_cy_values.size()
+         << " pref_change_cy_values vals, expected " << n << "\n";
+    }
+    n = pref_change_ti_times.size();
+    if (pref_change_ti_commods.size() != n) {
+      ss << "prototype '" << prototype() << "' has " << pref_change_ti_commods.size()
+         << " pref_change_ti_commods vals, expected " << n << "\n";
+    }
+    if (pref_change_ti_values.size() != n) {
+      ss << "prototype '" << prototype() << "' has " << pref_change_ti_values.size()
+         << " pref_change_ti_values vals, expected " << n << "\n";
+    }
   }
-  if (pref_change_cy_values.size() != n) {
-    ss << "prototype '" << prototype() << "' has " << pref_change_cy_values.size()
-       << " pref_change_cy_values vals, expected " << n << "\n";
-  }
-
   n_cycles = 0;
 
   if (ss.str().size() > 0) {
@@ -153,7 +185,7 @@ void Reactor::Tick() {
   }
 // int t = context()->time();
 
-  // update preferences
+  // update preferences by cycle
   for (int i = 0; i < pref_change_cy_cycles.size(); i++) {
     int change_cy_cycle = pref_change_cy_cycles[i];
     if (n_cycles != change_cy_cycle) {
@@ -169,7 +201,7 @@ void Reactor::Tick() {
     }
   }
 
-  // update recipes
+  // update recipes by cycle
   for (int i = 0; i < recipe_change_cy_cycles.size(); i++) {
     int change_cy_cycle = recipe_change_cy_cycles[i];
     if (n_cycles != change_cy_cycle) {
@@ -181,6 +213,41 @@ void Reactor::Tick() {
       if (fuel_incommods[j] == incommod) {
         fuel_inrecipes[j] = recipe_change_cy_in[i];
         fuel_outrecipes[j] = recipe_change_cy_out[i];
+        break;
+      }
+    }
+  }
+
+  int t = context()->time();
+
+  // Update preference by times
+  for (int i = 0; i < pref_change_ti_times.size(); i++) {
+    int change_ti_t = pref_change_ti_times[i];
+    if (t != change_ti_t) {
+      continue;
+    }
+
+    std::string incommod = pref_change_ti_commods[i];
+    for (int j = 0; j < fuel_incommods.size(); j++) {
+      if (fuel_incommods[j] == incommod) {
+        fuel_prefs[j] = pref_change_ti_values[i];
+        break;
+      }
+    }
+  }
+
+  // update recipes by times
+  for (int i = 0; i < recipe_change_ti_times.size(); i++) {
+    int change_ti_t = recipe_change_ti_times[i];
+    if (t != change_ti_t) {
+      continue;
+    }
+
+    std::string incommod = recipe_change_ti_commods[i];
+    for (int j = 0; j < fuel_incommods.size(); j++) {
+      if (fuel_incommods[j] == incommod) {
+        fuel_inrecipes[j] = recipe_change_ti_in[i];
+        fuel_outrecipes[j] = recipe_change_ti_out[i];
         break;
       }
     }

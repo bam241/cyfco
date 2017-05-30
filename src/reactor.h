@@ -218,6 +218,7 @@ class Reactor : public cyclus::Facility,
   std::vector<std::string> fuel_outrecipes;
 
   ///////////// recipe changes ///////////
+  // by Cycle
   #pragma cyclus var { \
     "default": [], \
     "uilabel": "Cycle to Change Fresh/Spent Fuel Recipe", \
@@ -252,6 +253,42 @@ class Reactor : public cyclus::Facility,
     "uitype": ["oneormore", "outrecipe"], \
   }
   std::vector<std::string> recipe_change_cy_out;
+
+  // After specific Time
+  #pragma cyclus var { \
+    "default": [], \
+    "uilabel": "Time to Change Fresh/Spent Fuel Recipe", \
+    "doc": "A time step on which to change the input-output recipe pair for " \
+           "a requested fresh fuel.", \
+  }
+  std::vector<int> recipe_change_ti_times;
+  #pragma cyclus var { \
+    "default": [], \
+    "uilabel": "Commodity for Changed Fresh/Spent Fuel Recipe", \
+    "doc": "The input commodity indicating fresh fuel for which recipes will " \
+           "be changed. Same order as and direct correspondence to the " \
+           "specified recipe change times.", \
+    "uitype": ["oneormore", "incommodity"], \
+  }
+  std::vector<std::string> recipe_change_ti_commods;
+  #pragma cyclus var { \
+    "default": [], \
+    "uilabel": "New Recipe for Fresh Fuel", \
+    "doc": "The new input recipe to use for this recipe change." \
+           " Same order as and direct correspondence to the specified recipe " \
+           "change times.", \
+    "uitype": ["oneormore", "inrecipe"], \
+  }
+  std::vector<std::string> recipe_change_ti_in;
+  #pragma cyclus var { \
+    "default": [], \
+    "uilabel": "New Recipe for Spent Fuel", \
+    "doc": "The new output recipe to use for this recipe change." \
+           " Same order as and direct correspondence to the specified recipe " \
+           "change times.", \
+    "uitype": ["oneormore", "outrecipe"], \
+  }
+  std::vector<std::string> recipe_change_ti_out;
 
  //////////// inventory and core params ////////////
   #pragma cyclus var { \
@@ -346,6 +383,8 @@ class Reactor : public cyclus::Facility,
   std::string power_name;
 
   /////////// preference changes ///////////
+
+  // By Cycle
   #pragma cyclus var { \
     "default": [], \
     "uilabel": "Cycle to Change Fresh Fuel Preference", \
@@ -370,6 +409,33 @@ class Reactor : public cyclus::Facility,
            "preference change times.", \
   }
   std::vector<double> pref_change_cy_values;
+
+  // After a specific time
+
+  #pragma cyclus var { \
+    "default": [], \
+    "uilabel": "Time to Change Fresh Fuel Preference", \
+    "doc": "A time step on which to change the request preference for a " \
+           "particular fresh fuel type.", \
+  }
+  std::vector<int> pref_change_ti_times;
+  #pragma cyclus var { \
+    "default": [], \
+    "doc": "The input commodity for a particular fuel preference change.  " \
+           "Same order as and direct correspondence to the specified " \
+           "preference change times.", \
+    "uilabel": "Commodity for Changed Fresh Fuel Preference", \
+    "uitype": ["oneormore", "incommodity"], \
+  }
+  std::vector<std::string> pref_change_ti_commods;
+  #pragma cyclus var { \
+    "default": [], \
+    "uilabel": "Changed Fresh Fuel Preference",                        \
+    "doc": "The new/changed request preference for a particular fresh fuel." \
+           " Same order as and direct correspondence to the specified " \
+           "preference change times.", \
+  }
+  std::vector<double> pref_change_ti_values;
 
   // Resource inventories - these must be defined AFTER/BELOW the member vars
   // referenced (e.g. n_batch_fresh, assem_size, etc.).
