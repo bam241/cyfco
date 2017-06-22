@@ -16,7 +16,7 @@ TEST(GroupInstTests, BuildTimes) {
      ;
 
   int simdur = 5;
-  cyclus::MockSim sim(cyclus::AgentSpec(":cycamore:GroupInst"), config, simdur);
+  cyclus::MockSim sim(cyclus::AgentSpec(":cyfco:GroupInst"), config, simdur);
   sim.DummyProto("foobar1");
   sim.DummyProto("foobar2");
   sim.DummyProto("foobar3");
@@ -42,7 +42,7 @@ TEST(GroupInstTests, BuildTimes) {
 
 // required to get functionality in cyclus agent unit tests library
 cyclus::Agent* GroupInstitutionConstructor(cyclus::Context* ctx) {
-  return new cycamore::GroupInst(ctx);
+  return new cyfco::GroupInst(ctx);
 }
 #ifndef CYCLUS_AGENT_TESTS_CONNECTED
 int ConnectAgentTests();

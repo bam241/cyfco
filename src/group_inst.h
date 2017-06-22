@@ -1,10 +1,9 @@
-#ifndef CYCAMORE_SRC_MANAGER_INST_H_
-#define CYCAMORE_SRC_MANAGER_INST_H_
+#ifndef CYFCO_SRC_MANAGER_INST_H_
+#define CYFCO_SRC_MANAGER_INST_H_
 
 #include "cyclus.h"
-#include "cycamore_version.h"
 
-namespace cycamore {
+namespace cyfco {
 
 /// @class GroupInst
 /// @section introduction Introduction
@@ -20,8 +19,6 @@ class GroupInst
 
   /// Default destructor
   virtual ~GroupInst();
-
-  virtual std::string version() { return CYCAMORE_VERSION; }
 
   #pragma cyclus
 
@@ -46,6 +43,6 @@ class GroupInst
   std::vector<std::string> prototypes;
 };
 
-}  // namespace cycamore
+}  // namespace cyfco
 
-#endif  // CYCAMORE_SRC_MANAGER_INST_H_
+#endif  // CYFCO_SRC_MANAGER_INST_H_

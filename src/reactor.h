@@ -1,10 +1,9 @@
-#ifndef CYCAMORE_SRC_REACTOR_H_
-#define CYCAMORE_SRC_REACTOR_H_
+#ifndef CYFCO_SRC_REACTOR_H_
+#define CYFCO_SRC_REACTOR_H_
 
 #include "cyclus.h"
-#include "cycamore_version.h"
 
-namespace cycamore {
+namespace cyfco {
 
 /// Reactor is a simple, general reactor based on static compositional
 /// transformations to model fuel burnup.  The user specifies a set of input
@@ -108,8 +107,6 @@ class Reactor : public cyclus::Facility,
  public:
   Reactor(cyclus::Context* ctx);
   virtual ~Reactor(){};
-
-  virtual std::string version() { return CYCAMORE_VERSION; }
 
   virtual void Tick();
   virtual void Tock();
@@ -467,6 +464,6 @@ class Reactor : public cyclus::Facility,
   int n_cycles;
 };
 
-} // namespace cycamore
+} // namespace cyfco
 
-#endif  // CYCAMORE_SRC_REACTOR_H_
+#endif  // CYFCO_SRC_REACTOR_H_

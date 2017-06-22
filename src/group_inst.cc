@@ -1,7 +1,7 @@
 // Implements the GroupInst class
 #include "group_inst.h"
 
-namespace cycamore {
+namespace cyfco {
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 GroupInst::GroupInst(cyclus::Context* ctx) : cyclus::Institution(ctx) { }
@@ -27,4 +27,4 @@ extern "C" cyclus::Agent* ConstructGroupInst(cyclus::Context* ctx) {
   return new GroupInst(ctx);
 }
 
-}  // namespace cycamore
+}  // namespace cyfco

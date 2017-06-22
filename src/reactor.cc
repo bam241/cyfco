@@ -8,7 +8,7 @@ using cyclus::KeyError;
 using cyclus::ValueError;
 using cyclus::Request;
 
-namespace cycamore {
+namespace cyfco {
 
 Reactor::Reactor(cyclus::Context* ctx)
     : cyclus::Facility(ctx),
@@ -24,27 +24,27 @@ Reactor::Reactor(cyclus::Context* ctx)
       power_name("power"),
       discharged(false) { }
 
-#pragma cyclus def clone cycamore::Reactor
+#pragma cyclus def clone cyfco::Reactor
 
-#pragma cyclus def schema cycamore::Reactor
+#pragma cyclus def schema cyfco::Reactor
 
-#pragma cyclus def annotations cycamore::Reactor
+#pragma cyclus def annotations cyfco::Reactor
 
-#pragma cyclus def infiletodb cycamore::Reactor
+#pragma cyclus def infiletodb cyfco::Reactor
 
-#pragma cyclus def snapshot cycamore::Reactor
+#pragma cyclus def snapshot cyfco::Reactor
 
-#pragma cyclus def snapshotinv cycamore::Reactor
+#pragma cyclus def snapshotinv cyfco::Reactor
 
-#pragma cyclus def initinv cycamore::Reactor
+#pragma cyclus def initinv cyfco::Reactor
 
 void Reactor::InitFrom(Reactor* m) {
-  #pragma cyclus impl initfromcopy cycamore::Reactor
+  #pragma cyclus impl initfromcopy cyfco::Reactor
   cyclus::toolkit::CommodityProducer::Copy(m);
 }
 
 void Reactor::InitFrom(cyclus::QueryableBackend* b) {
-  #pragma cyclus impl initfromdb cycamore::Reactor
+  #pragma cyclus impl initfromdb cyfco::Reactor
 
   namespace tk = cyclus::toolkit;
   tk::CommodityProducer::Add(tk::Commodity(power_name),
@@ -487,7 +487,7 @@ void Reactor::Load() {
 std::string Reactor::fuel_incommod(Material::Ptr m) {
   int i = res_indexes[m->obj_id()];
   if (i >= fuel_incommods.size()) {
-    throw KeyError("cycamore::Reactor - no incommod for material object");
+    throw KeyError("cyfco::Reactor - no incommod for material object");
   }
   return fuel_incommods[i];
 }
@@ -495,7 +495,7 @@ std::string Reactor::fuel_incommod(Material::Ptr m) {
 std::string Reactor::fuel_outcommod(Material::Ptr m) {
   int i = res_indexes[m->obj_id()];
   if (i >= fuel_outcommods.size()) {
-    throw KeyError("cycamore::Reactor - no outcommod for material object");
+    throw KeyError("cyfco::Reactor - no outcommod for material object");
   }
   return fuel_outcommods[i];
 }
@@ -503,7 +503,7 @@ std::string Reactor::fuel_outcommod(Material::Ptr m) {
 std::string Reactor::fuel_inrecipe(Material::Ptr m) {
   int i = res_indexes[m->obj_id()];
   if (i >= fuel_inrecipes.size()) {
-    throw KeyError("cycamore::Reactor - no inrecipe for material object");
+    throw KeyError("cyfco::Reactor - no inrecipe for material object");
   }
   return fuel_inrecipes[i];
 }
@@ -511,7 +511,7 @@ std::string Reactor::fuel_inrecipe(Material::Ptr m) {
 std::string Reactor::fuel_outrecipe(Material::Ptr m) {
   int i = res_indexes[m->obj_id()];
   if (i >= fuel_outrecipes.size()) {
-    throw KeyError("cycamore::Reactor - no outrecipe for material object");
+    throw KeyError("cyfco::Reactor - no outrecipe for material object");
   }
   return fuel_outrecipes[i];
 }
@@ -532,7 +532,7 @@ void Reactor::index_res(cyclus::Resource::Ptr m, std::string incommod) {
     }
   }
   throw ValueError(
-      "cycamore::Reactor - received unsupported incommod material");
+      "cyfco::Reactor - received unsupported incommod material");
 }
 
 std::map<std::string, MatVec> Reactor::PopSpent() {
@@ -575,4 +575,4 @@ extern "C" cyclus::Agent* ConstructReactor(cyclus::Context* ctx) {
   return new Reactor(ctx);
 }
 
-}  // namespace cycamore
+}  // namespace cyfco
