@@ -140,12 +140,12 @@ void Reactor::Tick() {
   // can't go at the beginnin of the Tock is so that resource exchange has a
   // chance to occur after the discharge on this same time step.
 
-  if (retired()) {
+  if (retired() || (abs_retire_time <= context()->time() && abs_retire_time != -1)) {
     Record("RETIRED", "");
 
     // record the last time series entry if the reactor was operating at the
     // time of retirement.
-    if (exit_time() == context()->time()) {
+    if (exit_time() == context()->time()  ) {
       if (cycle_step > 0 && cycle_step <= cycle_time &&
           core.count() == n_assem_core) {
         cyclus::toolkit::RecordTimeSeries<cyclus::toolkit::POWER>(this, power_cap);
@@ -278,7 +278,7 @@ std::set<cyclus::RequestPortfolio<Material>::Ptr> Reactor::GetMatlRequests() {
 
   if (n_assem_order == 0) {
     return ports;
-  } else if (retired()) {
+  } else if (retired() || (abs_retire_time <= context()->time() && abs_retire_time != -1)) {
     return ports;
   }
 
@@ -400,7 +400,7 @@ std::set<cyclus::BidPortfolio<Material>::Ptr> Reactor::GetMatlBids(
 }
 
 void Reactor::Tock() {
-  if (retired()) {
+  if (retired()|| (abs_retire_time <= context()->time() && abs_retire_time != -1)) {
     return;
   }
 

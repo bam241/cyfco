@@ -332,7 +332,6 @@ class Reactor : public cyclus::Facility,
            " reactor operation stalls.", \
   }
   int n_assem_spent;
-
    ///////// cycle params ///////////
   #pragma cyclus var { \
     "default": 18, \
@@ -358,6 +357,15 @@ class Reactor : public cyclus::Facility,
     "units": "time steps", \
   }
   int cycle_step;
+
+  #pragma cyclus var { \
+    "default": -1, \
+    "doc": "absulte time to shutdown the reactor", \
+    "uilabel": "absulte time to shutdown the reactor", \
+    "uilabel": "Absolut time to shutdown the reactor", \
+    "units": "time steps", \
+  }
+  int abs_retire_time;
 
   //////////// power params ////////////
   #pragma cyclus var { \
